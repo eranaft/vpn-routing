@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VPN AIR — Профиль маршрутизации</title>
+<title>VPN AIR - Профиль маршрутизации</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@400;500&display=swap');
 
@@ -24,11 +24,24 @@
   .bg {
     position: fixed; inset: 0; z-index: 0;
     background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a0a3e 0%, #0a0a0f 70%);
+    animation: bgPulse 10s ease-in-out infinite alternate;
   }
   .bg::before {
     content: '';
     position: absolute; inset: 0;
     background: radial-gradient(circle 400px at 80% 80%, #0d2a4a 0%, transparent 70%);
+    animation: bgMove 15s ease-in-out infinite alternate;
+  }
+
+  @keyframes bgPulse {
+    0% { filter: hue-rotate(0deg) brightness(1); }
+    50% { filter: hue-rotate(15deg) brightness(1.15); }
+    100% { filter: hue-rotate(-10deg) brightness(1.05); }
+  }
+  @keyframes bgMove {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+    50% { transform: translate(-30px, -20px) scale(1.1); opacity: 1; }
+    100% { transform: translate(20px, 10px) scale(0.95); opacity: 0.9; }
   }
 
   .stars {
@@ -41,53 +54,229 @@
       radial-gradient(1px 1px at 90% 50%, rgba(255,255,255,0.4) 0%, transparent 100%),
       radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,0.3) 0%, transparent 100%),
       radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.5) 0%, transparent 100%);
+    animation: twinkle 4s ease-in-out infinite alternate;
+  }
+  .stars::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 25% 55%, rgba(167,139,250,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 25%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 45% 15%, rgba(139,92,246,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 75%, rgba(255,255,255,0.35) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 15% 45%, rgba(167,139,250,0.45) 0%, transparent 100%);
+    animation: twinkle2 6s ease-in-out infinite alternate-reverse;
+  }
+
+  @keyframes twinkle {
+    0% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); }
+    100% { opacity: 0.8; transform: scale(0.98); }
+  }
+  @keyframes twinkle2 {
+    0% { opacity: 0.5; transform: scale(0.95); }
+    50% { opacity: 1; transform: scale(1.03); }
+    100% { opacity: 0.7; transform: scale(1); }
+  }
+
+  .meteor {
+    position: fixed;
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.8), rgba(167,139,250,0.4));
+    border-radius: 50%;
+    transform: rotate(-45deg);
+    opacity: 0;
+    z-index: 0;
+    filter: drop-shadow(0 0 6px rgba(167,139,250,0.8));
+  }
+  .meteor:nth-child(1) { top: 10%; left: 80%; animation: meteor 8s linear infinite 2s; }
+  .meteor:nth-child(2) { top: 30%; left: 60%; animation: meteor 10s linear infinite 5s; width: 60px; }
+  .meteor:nth-child(3) { top: 60%; left: 90%; animation: meteor 12s linear infinite 1s; width: 80px; }
+
+  @keyframes meteor {
+    0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 0; }
+    10% { opacity: 1; }
+    20% { transform: translateX(-200px) translateY(200px) rotate(-45deg); opacity: 0; }
+    100% { opacity: 0; }
   }
 
   .card {
     position: relative; z-index: 1;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+    border: 1px solid rgba(255,255,255,0.15);
     border-radius: 28px;
     padding: 44px 32px;
     max-width: 380px;
     width: 90%;
     text-align: center;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 0 80px rgba(100,60,255,0.15), 0 0 0 1px rgba(255,255,255,0.05);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    box-shadow:
+      inset 0 1px 1px rgba(255,255,255,0.15),
+      0 25px 50px -12px rgba(0,0,0,0.5),
+      0 0 80px rgba(100,60,255,0.12);
     animation: fadeIn 0.6s ease;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  }
+  .card::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.08) 0%, transparent 50%);
+    pointer-events: none;
   }
 
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+
+  .title-wrap {
+    text-align: center;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+
   .title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-family: 'Unbounded', sans-serif;
-  font-size: 22px;
-  font-weight: 900;
-  margin-bottom: 10px;
-  text-align: center;
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    position: relative;
+  }
 
-.title-part {
-  background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+  .title-part {
+    background: linear-gradient(90deg, #fff, #a78bfa, #fff);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite;
+  }
+
+  .subtitle-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 12px;
+    margin-top: 6px;
+    background: linear-gradient(90deg, #fff, #a78bfa, #fff);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+
+  /* ===== РАКЕТА МЕЖДУ БУКВ ===== */
+  .rocket-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+  }
+
   .rocket {
-  font-size: 26px;
-  display: inline-block;
-  animation: float 2.5s ease-in-out infinite;
-}
+    font-size: 26px;
+    line-height: 1;
+    display: block;
+    filter: drop-shadow(0 0 8px rgba(167,139,250,0.7)) drop-shadow(0 0 16px rgba(109,40,217,0.3));
+    animation: tgFloat 3s ease-in-out infinite, tgTilt 4s ease-in-out infinite;
+    will-change: transform;
+  }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
+  /* Мягкое свечение вокруг */
+  .rocket-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    background: radial-gradient(circle, rgba(167,139,250,0.25), transparent 70%);
+    border-radius: 50%;
+    animation: tgGlow 2.5s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Огонь двигателя */
+  .rocket::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 12px;
+    background: linear-gradient(to bottom, rgba(251,191,36,0.9), rgba(245,158,11,0.4), transparent);
+    border-radius: 50%;
+    filter: blur(2px);
+    animation: tgFlame 0.15s ease-out infinite alternate;
+    pointer-events: none;
+  }
+
+  /* Искры */
+  .rocket-spark {
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 3px;
+    height: 3px;
+    background: rgba(251,191,36,0.8);
+    border-radius: 50%;
+    filter: blur(0.5px);
+    animation: tgSpark 0.6s ease-out infinite;
+    pointer-events: none;
+  }
+  .rocket-spark:nth-child(2) { animation-delay: 0.2s; left: 45%; }
+  .rocket-spark:nth-child(3) { animation-delay: 0.4s; left: 55%; }
+
+  @keyframes shine {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  /* Telegram-style анимации - плавные, мягкие, НЕ летящие */
+  @keyframes tgFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  @keyframes tgTilt {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    25% { transform: translateY(-3px) rotate(1deg); }
+    50% { transform: translateY(-5px) rotate(-1deg); }
+    75% { transform: translateY(-2px) rotate(2deg); }
+  }
+  @keyframes tgGlow {
+    0% { opacity: 0.6; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1.15); }
+  }
+  @keyframes tgFlame {
+    0% { height: 8px; opacity: 0.6; transform: translateX(-50%) scaleX(0.8); }
+    100% { height: 14px; opacity: 1; transform: translateX(-50%) scaleX(1.2); }
+  }
+  @keyframes tgSpark {
+    0% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, 10px) scale(0); opacity: 0; }
+  }
+
+  @keyframes btnshine {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
 
   h1 {
     font-family: 'Unbounded', sans-serif;
@@ -125,8 +314,27 @@
     font-size: 14px;
     color: rgba(255,255,255,0.85);
     line-height: 1.4;
+    opacity: 0;
+    transform: translateX(-10px);
+    animation: featureSlide 0.5s ease forwards;
+    transition: all 0.3s ease;
+    cursor: default;
   }
-  .feature-icon { font-size: 20px; flex-shrink: 0; }
+  .feature:nth-child(1) { animation-delay: 0.3s; }
+  .feature:nth-child(2) { animation-delay: 0.5s; }
+  .feature:nth-child(3) { animation-delay: 0.7s; }
+  .feature:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(167,139,250,0.3);
+    transform: translateX(4px);
+    box-shadow: 0 4px 20px rgba(109,40,217,0.15);
+  }
+  .feature-icon { font-size: 20px; flex-shrink: 0; transition: transform 0.3s ease; }
+  .feature:hover .feature-icon { transform: scale(1.2); }
+
+  @keyframes featureSlide {
+    to { opacity: 1; transform: translateX(0); }
+  }
 
   .btn {
     display: flex;
@@ -143,19 +351,34 @@
     font-weight: 700;
     text-decoration: none;
     color: #fff;
-    background: linear-gradient(135deg, #6d28d9, #4f46e5);
-    box-shadow: 0 8px 32px rgba(109,40,217,0.4);
-    transition: all 0.2s ease;
+    background: linear-gradient(90deg, #6d28d9, #4f46e5, #6d28d9);
+    background-size: 200% 100%;
+    animation: btnshine 4s linear infinite;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
   }
-  .btn:hover { box-shadow: 0 12px 40px rgba(109,40,217,0.6); transform: translateY(-1px); }
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+  }
+  .btn:hover::before { left: 100%; }
+  .btn:hover { box-shadow: 0 12px 40px rgba(109,40,217,0.6), 0 0 60px rgba(79,70,229,0.3); transform: translateY(-1px); }
   .btn:active { transform: scale(0.97); }
-  .btn-icon { font-size: 20px; }
+  .btn-icon { font-size: 20px; transition: transform 0.3s ease; }
+  .btn:hover .btn-icon { transform: translateX(3px); }
 
   #status {
     margin-top: 16px;
     font-size: 13px;
     color: #a78bfa;
     min-height: 20px;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
   }
 
   .note {
@@ -177,27 +400,45 @@
     color: #c4b5fd;
     margin-bottom: 20px;
     font-family: 'Unbounded', sans-serif;
+    animation: badgePulse 3s ease-in-out infinite;
+  }
+
+  @keyframes badgePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(109,40,217,0.2); }
+    50% { box-shadow: 0 0 15px 2px rgba(109,40,217,0.3); }
   }
 </style>
+<base target="_blank">
 </head>
 <body>
 <div class="bg"></div>
 <div class="stars"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
 
 <div class="card">
-  <div class="title">
-  <span class="title-part">VPN</span>
-  <span class="rocket">🚀</span>
-  <span class="title-part">AIR</span>
-  <span class="title-part">Профиль маршрутизации</span>
-</div>
+  <div class="title-wrap">
+    <div class="title">
+      <span class="title-part">VPN</span>
+      <div class="rocket-wrap">
+        <span class="rocket">🚀</span>
+        <span class="rocket-spark"></span>
+        <span class="rocket-spark"></span>
+        <span class="rocket-spark"></span>
+      </div>
+      <span class="title-part">AIR</span>
+    </div>
+    <div class="subtitle-title">Профиль маршрутизации</div>
+  </div>
+
   <div class="badge">✦ Только для Happ</div>
-  <p class="subtitle">Яндекс, ВКонтакте, Лавка и другие RU-сервисы открываются с включённым VPN</p>
+  <p class="subtitle">Яндекс, ВКонтакте, Лавка и другие RU-сервисы открываются с включенным VPN</p>
 
   <div class="features">
     <div class="feature">
       <span class="feature-icon">🇷🇺</span>
-      RU-трафик идёт напрямую - сервисы не видят VPN
+      RU-трафик идет напрямую - сервисы не видят VPN
     </div>
     <div class="feature">
       <span class="feature-icon">🔒</span>
@@ -215,14 +456,14 @@
   </a>
 
   <div id="status"></div>
-  <p class="note">Нажми кнопку — Happ откроется автоматически и предложит добавить профиль.<br>Требуется приложение Happ на iPhone.</p>
+  <p class="note">Нажми кнопку - Happ откроется автоматически и предложит добавить профиль.<br>Требуется приложение Happ на iPhone.</p>
 </div>
 
 <script>
   document.getElementById('installBtn').addEventListener('click', function() {
     document.getElementById('status').textContent = '⏳ Открываем Happ...';
     setTimeout(() => {
-      document.getElementById('status').textContent = '✅ Если Happ не открылся — убедись что приложение установлено';
+      document.getElementById('status').textContent = '✅ Если Happ не открылся - убедись что приложение установлено';
     }, 2000);
   });
 </script>
