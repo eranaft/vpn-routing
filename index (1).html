@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VPN AIR — Профиль маршрутизации</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #0a0a0f;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 0;
+    overflow-x: hidden;
+  }
+
+  .bg {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a0a3e 0%, #0a0a0f 70%);
+  }
+  .bg::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle 400px at 80% 80%, #0d2a4a 0%, transparent 70%);
+  }
+
+  .stars {
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 50%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.5) 0%, transparent 100%);
+  }
+
+  .card {
+    position: relative; z-index: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 28px;
+    padding: 44px 32px;
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 80px rgba(100,60,255,0.15), 0 0 0 1px rgba(255,255,255,0.05);
+    animation: fadeIn 0.6s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .rocket {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 18px;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .subtitle {
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  .features {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 36px;
+    text-align: left;
+  }
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.4;
+  }
+  .feature-icon { font-size: 20px; flex-shrink: 0; }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 19px;
+    border-radius: 18px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, #6d28d9, #4f46e5);
+    box-shadow: 0 8px 32px rgba(109,40,217,0.4);
+    transition: all 0.2s ease;
+  }
+  .btn:hover { box-shadow: 0 12px 40px rgba(109,40,217,0.6); transform: translateY(-1px); }
+  .btn:active { transform: scale(0.97); }
+  .btn-icon { font-size: 20px; }
+
+  #status {
+    margin-top: 16px;
+    font-size: 13px;
+    color: #a78bfa;
+    min-height: 20px;
+  }
+
+  .note {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+    margin-top: 20px;
+    line-height: 1.6;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(109,40,217,0.2);
+    border: 1px solid rgba(109,40,217,0.4);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: #c4b5fd;
+    margin-bottom: 20px;
+    font-family: 'Unbounded', sans-serif;
+  }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="stars"></div>
+
+<div class="card">
+  <span class="rocket">🚀</span>
+  <h1>VPN AIR<br>Профиль маршрутизации</h1>
+  <div class="badge">✦ Только для Happ</div>
+  <p class="subtitle">Яндекс, ВКонтакте, Лавка и другие RU-сервисы открываются с включённым VPN</p>
+
+  <div class="features">
+    <div class="feature">
+      <span class="feature-icon">🇷🇺</span>
+      RU-трафик идёт напрямую — сервисы не видят VPN
+    </div>
+    <div class="feature">
+      <span class="feature-icon">🔒</span>
+      Заблокированные сайты — через VPN как обычно
+    </div>
+    <div class="feature">
+      <span class="feature-icon">⚡️</span>
+      Устанавливается в один клик — 10 секунд
+    </div>
+  </div>
+
+  <a class="btn" id="installBtn"
+     href="happ://routing/add/eyJSZW1vdGVETlNEb21haW4iOiJodHRwczpcL1wvY2xvdWRmbGFyZS1kbnMuY29tXC9kbnMtcXVlcnkiLCJMYXN0VXBkYXRlZCI6MTc3NzEzMDQ3OCwiRG9tZXN0aWNETlNJcCI6IjguOC44LjgiLCJCbG9ja1NpdGVzIjpbXSwiRGlyZWN0U2l0ZXMiOlsiZ2Vvc2l0ZTp5YW5kZXgiLCJnZW9zaXRlOm1haWxydSIsImdlb3NpdGU6dmsiLCJkb21haW46bGF2a2EueWFuZGV4LnJ1IiwiZG9tYWluOmxhdmthLnlhbmRleC5jb20iLCJkb21haW46c3VwZXJjaGVjay55YW5kZXgucnUiXSwiRG5zSG9zdHMiOnt9LCJVc2VDaHVua0ZpbGVzIjpmYWxzZSwiR2Vvc2l0ZVVybCI6Imh0dHBzOlwvXC9naXRodWIuY29tXC9Mb3lhbHNvbGRpZXJcL3YycmF5LXJ1bGVzLWRhdFwvcmVsZWFzZXNcL2xhdGVzdFwvZG93bmxvYWRcL2dlb3NpdGUuZGF0IiwiR2xvYmFsUHJveHkiOnRydWUsIlByb3h5U2l0ZXMiOltdLCJSZW1vdGVETlNJcCI6Ijc3Ljg4LjguOCAiLCJEb21lc3RpY0ROU1R5cGUiOiJEb1UiLCJGYWtlRG5zIjp0cnVlLCJOYW1lIjoi0JfQsNC70LXRh9GMINC90LAg0LTQvdC+IOKbqu+4jyIsIlByb3h5SXAiOltdLCJHZW9pcFVybCI6Imh0dHBzOlwvXC9naXRodWIuY29tXC9Mb3lhbHNvbGRpZXJcL3YycmF5LXJ1bGVzLWRhdFwvcmVsZWFzZXNcL2xhdGVzdFwvZG93bmxvYWRcL2dlb2lwLmRhdCIsIlJvdXRlT3JkZXIiOiJibG9jay1kaXJlY3QtcHJveHkiLCJSZW1vdGVETlNUeXBlIjoiRG9VIiwiRG9tZXN0aWNETlNEb21haW4iOiJodHRwczpcL1wvZG5zLmdvb2dsZVwvZG5zLXF1ZXJ5IiwiRGlyZWN0SXAiOlsiZ2VvaXA6cnUiLCJnZW9pcDpwcml2YXRlIl0sIkJsb2NrSXAiOltdLCJEb21haW5TdHJhdGVneSI6IklQSWZOb25NYXRjaCJ9">
+    <span class="btn-icon">📲</span> Установить профиль
+  </a>
+
+  <div id="status"></div>
+  <p class="note">Нажми кнопку — Happ откроется автоматически и предложит добавить профиль.<br>Требуется приложение Happ на iPhone.</p>
+</div>
+
+<script>
+  document.getElementById('installBtn').addEventListener('click', function() {
+    document.getElementById('status').textContent = '⏳ Открываем Happ...';
+    setTimeout(() => {
+      document.getElementById('status').textContent = '✅ Если Happ не открылся — убедись что приложение установлено';
+    }, 2000);
+  });
+</script>
+</body>
+</html>
