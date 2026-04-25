@@ -61,17 +61,33 @@
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+  .title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 10px;
+  text-align: center;
+}
 
+.title-part {
+  background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
   .rocket {
-    font-size: 52px;
-    display: block;
-    margin-bottom: 18px;
-    animation: float 3s ease-in-out infinite;
-  }
-  @keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
+  font-size: 26px;
+  display: inline-block;
+  animation: float 2.5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
 
   h1 {
     font-family: 'Unbounded', sans-serif;
@@ -169,11 +185,11 @@
 <div class="stars"></div>
 
 <div class="card">
-  <h1 class="title">
-  <span>VPN</span>
+  <div class="title">
+  <span class="title-part">VPN</span>
   <span class="rocket">🚀</span>
-  <span>AIR</span>
-</h1>
+  <span class="title-part">AIR</span>
+</div>
   <div class="badge">✦ Только для Happ</div>
   <p class="subtitle">Яндекс, ВКонтакте, Лавка и другие RU-сервисы открываются с включённым VPN</p>
 
